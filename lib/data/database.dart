@@ -7,11 +7,11 @@ import 'package:test_app/model/Book.dart';
 
 
 class BookDatabase {
-  static final BookDatabase _bookDatabase = new BookDatabase._internal();
+  static final BookDatabase _bookDatabase = BookDatabase._internal();
 
   final String tableName = "Books";
 
-  Database db;
+ late Database db;
 
   bool didInit = false;
 
@@ -60,7 +60,7 @@ class BookDatabase {
   Future<Book> getBook(String id) async{
     var db = await _getDb();
     var result = await db.rawQuery('SELECT * FROM $tableName WHERE ${Book.db_id} = "$id"');
-    if(result.length == 0)return null;
+    if(result.length == 0) return Book();
     return new Book.fromMap(result[0]);
   }
 
@@ -98,7 +98,7 @@ class BookDatabase {
         'INSERT OR REPLACE INTO '
             '$tableName(${Book.db_id}, ${Book.db_title}, ${Book.db_url}, ${Book.db_star}, ${Book.db_notes}, ${Book.db_author}, ${Book.db_description}, ${Book.db_subtitle})'
             ' VALUES(?, ?, ?, ?, ?, ?, ?, ?)',
-        [book.id, book.title, book.url, book.starred? 1:0, book.notes, book.author, book.description, book.subtitle]);
+        [book.id, book.title, book.url, book.starred!=null && book.starred==true? 1:0, book.notes, book.author, book.description, book.subtitle]);
 
   }
 

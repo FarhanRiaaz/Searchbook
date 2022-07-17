@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class Stamp extends StatefulWidget {
 
 
-  Stamp(this.imageUrl, {this.width = 150.0, this.locked = false, this.onClick});
+  Stamp(this.imageUrl, {this.width = 150.0, this.locked = false, required this.onClick});
 
   final bool withStartAnimation = false;
   final String imageUrl;
@@ -28,7 +28,7 @@ class Stamp extends StatefulWidget {
 class _StampState extends State<Stamp> with SingleTickerProviderStateMixin{
 
 //  AnimationController animationController;
-  Animation animation;
+ late Animation animation;
 
 
   @override
@@ -76,16 +76,6 @@ class _StampState extends State<Stamp> with SingleTickerProviderStateMixin{
 
   }
 
-  Widget _clippedV1(BuildContext context, double card_width, double card_height) {
-    return new ClipPath(
-      clipper: new StampClipper(),
-      child: new Image.asset("assets/test_img.jpg",
-        width: card_width,
-        height: card_height,
-        fit: BoxFit.cover,
-      ),
-    );
-  }
 
   Widget _clippedNetwork(BuildContext context, double card_width, double card_height, double holeRadius) {
     List<Widget> stackChildren = [];
@@ -123,41 +113,7 @@ class _StampState extends State<Stamp> with SingleTickerProviderStateMixin{
     );
   }
 
-  Widget _clippedNetwork2(BuildContext context, double card_width, double card_height) {
-    return new Container(
-      color: Colors.white,
-      child: new Align(
-          alignment: Alignment.topCenter,
-          child: new Image.network(widget.imageUrl,
-            width: card_width,
-            height: card_height,
-            fit: BoxFit.cover,
-          )
-      ),
-    );
-  }
 
-  Widget _clippedV2(BuildContext context, double card_width, double card_height) {
-    return new ClipPath(
-      clipper: new StampClipper(),
-      child: new Container(
-        color: Colors.white,
-        child: new Column(
-          children: <Widget>[
-            new Align(
-                alignment: Alignment.topCenter,
-                child: new Image.asset("assets/test_img.jpg",
-                  width: card_width,
-                  height: card_height- 30.0,
-                  fit: BoxFit.cover,
-                )
-            ),
-            new Text("Elon Musk", style: const TextStyle(fontSize: 20.0),),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   void dispose() {

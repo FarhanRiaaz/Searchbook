@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
 import 'package:test_app/data/repository.dart';
 import 'package:test_app/model/Book.dart';
-import 'package:test_app/redux/app_state.dart';
 import 'package:test_app/utils/index_offset_curve.dart';
 import 'package:test_app/widgets/collection_preview.dart';
-import 'package:test_app/widgets/stamp.dart';
 
 
 
 class HomePage extends StatefulWidget {
 
   @override
-  State<StatefulWidget> createState() => new _HomePageState();
+  State<StatefulWidget> createState() =>  _HomePageState();
 }
 
 
@@ -21,7 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
 
 
-  AnimationController cardsFirstOpenController;
+  late AnimationController cardsFirstOpenController;
 
 
   String interfaceType = "formal";
@@ -31,7 +27,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    cardsFirstOpenController = new AnimationController(vsync: this, duration: const Duration(milliseconds: 1300));
+    cardsFirstOpenController =  AnimationController(vsync: this, duration: const Duration(milliseconds: 1300));
 
     Repository.get().init().then((it){
       setState((){
@@ -51,29 +47,29 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
 
-    return new Scaffold(
-      body: init? new Container(): new CustomScrollView(
+    return  Scaffold(
+      body: init?  Container():  CustomScrollView(
         slivers: <Widget>[
-          new SliverAppBar(
+           SliverAppBar(
             actions: <Widget>[
-              new IconButton(icon: new Icon(Icons.search), onPressed: () {Navigator.pushNamed(context, '/search_$interfaceType');},),
-              new IconButton(icon: new Icon(Icons.collections), onPressed: () {Navigator.pushNamed(context, '/stamp_collection_$interfaceType');},),
+               IconButton(icon:  Icon(Icons.search), onPressed: () {Navigator.pushNamed(context, '/search_$interfaceType');},),
+               IconButton(icon:  Icon(Icons.collections), onPressed: () {Navigator.pushNamed(context, '/stamp_collection_$interfaceType');},),
             ],
             backgroundColor: Colors.white,
             elevation: 2.0,
-            iconTheme: new IconThemeData(color: Colors.black),
+            iconTheme:  IconThemeData(color: Colors.black),
             floating: true,
             forceElevated: true,
           ),
-          new SliverList(delegate: new SliverChildListDelegate(
+           SliverList(delegate:  SliverChildListDelegate(
             [
               wrapInAnimation(myCollection(), 0),
-              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Biographies", ["wO3PCgAAQBAJ","_LFSBgAAQBAJ","8U2oAAAAQBAJ", "yG3PAK6ZOucC"]), 1),
-              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Fiction", ["OsUPDgAAQBAJ", "3e-dDAAAQBAJ", "-ITZDAAAQBAJ","rmBeDAAAQBAJ", "vgzJCwAAQBAJ"]), 2),
-              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Mystery & Thriller", ["1Y9gDQAAQBAJ", "Pz4YDQAAQBAJ", "UXARDgAAQBAJ"]), 3),
-              wrapInAnimation(collectionPreview(new Color(0xffffffff), "Sience Ficition", ["JMYUDAAAQBAJ","PzhQydl-QD8C", "nkalO3OsoeMC", "VO8nDwAAQBAJ", "Nxl0BQAAQBAJ"]), 4),
-              new Center(
-                child: new Switch(value: interfaceType != "formal", onChanged: (bool){
+              wrapInAnimation(collectionPreview( Color(0xffffffff), "Biographies", ["wO3PCgAAQBAJ","_LFSBgAAQBAJ","8U2oAAAAQBAJ", "yG3PAK6ZOucC"]), 1),
+              wrapInAnimation(collectionPreview( Color(0xffffffff), "Fiction", ["OsUPDgAAQBAJ", "3e-dDAAAQBAJ", "-ITZDAAAQBAJ","rmBeDAAAQBAJ", "vgzJCwAAQBAJ"]), 2),
+              wrapInAnimation(collectionPreview( Color(0xffffffff), "Mystery & Thriller", ["1Y9gDQAAQBAJ", "Pz4YDQAAQBAJ", "UXARDgAAQBAJ"]), 3),
+              wrapInAnimation(collectionPreview( Color(0xffffffff), "Sience Ficition", ["JMYUDAAAQBAJ","PzhQydl-QD8C", "nkalO3OsoeMC", "VO8nDwAAQBAJ", "Nxl0BQAAQBAJ"]), 4),
+               Center(
+                child:  Switch(value: interfaceType != "formal", onChanged: (bool){
                   setState((){
                     if(bool) {
                       interfaceType = "material";
@@ -83,8 +79,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   });
                 }),
               ),
-              new Center(
-                child: new Text("Magic Switch, press for different style", style: const TextStyle(fontSize: 18.0),),
+               Center(
+                child:  Text("Magic Switch, press for different style", style: const TextStyle(fontSize: 18.0),),
               ),
             ],
           ))
@@ -94,12 +90,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
 
-  /* child: new StoreConnector<AppState, List<Book>>(
+  /* child:  StoreConnector<AppState, List<Book>>(
              converter: (Store<AppState> store) => store.state.readBooks,
              builder: (BuildContext context, List<Book> books) {
-               return new CollectionPreview(
+               return  CollectionPreview(
                  books: books,
-                 color: new Color(0xff8FC0A9),
+                 color:  Color(0xff8FC0A9),
                  title: "My Collection",
                  loading: false,
                );
@@ -107,11 +103,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
            ),*/
 
   Widget wrapInAnimation(Widget child, int index) {
-    Animation offsetAnimation = new CurvedAnimation(parent: cardsFirstOpenController, curve: new IndexOffsetCurve(index));
-    Animation fade = new CurvedAnimation(parent: offsetAnimation, curve: Curves.ease);
-    return new SlideTransition(
-        position: new Tween<Offset>(begin: new Offset(0.5, 0.0), end: new Offset(0.0, 0.0)).animate(fade),
-        child: new FadeTransition(
+    Animation<double> offsetAnimation =  CurvedAnimation(parent: cardsFirstOpenController, curve:  IndexOffsetCurve(index));
+    Animation<double> fade =  CurvedAnimation(parent: offsetAnimation, curve: Curves.ease);
+    return  SlideTransition(
+        position:  Tween<Offset>(begin:  Offset(0.5, 0.0), end:  Offset(0.0, 0.0)).animate(fade),
+        child:  FadeTransition(
           opacity: fade,
           child: child,
         )
@@ -120,12 +116,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
 
   Widget collectionPreview(Color color, String name, List<String> ids) {
-    return new FutureBuilder<List<Book>>(
+    return  FutureBuilder<List<Book>>(
       future: Repository.get().getBooksByIdFirstFromDatabaseAndCache(ids),
       builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
         List<Book> books = [];
-        if(snapshot.data != null) books = snapshot.data;
-        return new CollectionPreview(
+        if(snapshot.data != null) books = snapshot.data!;
+        return  CollectionPreview(
           books: books,
           color: color,
           title: name,
@@ -137,18 +133,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
 
   Widget myCollection() {
-    return new FutureBuilder<List<Book>>(
+    return  FutureBuilder<List<Book>>(
       future: Repository.get().getFavoriteBooks(),
       builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
         List<Book> books = [];
-        if(snapshot.data != null) books = snapshot.data;
+        if(snapshot.data != null) books = snapshot.data!;
         if(books.isEmpty) {
-          return new Container();
+          return  Container();
         }
-        return new CollectionPreview(
+        return  CollectionPreview(
           books: books,
-          //color: new Color(0xffFC96BC),
-          color: new Color(0xffffffff),
+          //color:  Color(0xffFC96BC),
+          color:  Color(0xffffffff),
           title: "My Collection",
           loading: snapshot.data == null,
         );

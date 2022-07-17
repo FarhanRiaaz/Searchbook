@@ -17,7 +17,7 @@ class BookCardMinimalistic extends StatelessWidget {
       child: new Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          new Image.network(book.url),
+          new Image.network(book.url!),
         ],
       ),
     );

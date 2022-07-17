@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:rxdart/rxdart.dart';
 import 'package:test_app/data/database.dart';
 import 'package:test_app/model/Book.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +25,7 @@ class Repository {
 
   static final Repository _repo = new Repository._internal();
 
-  BookDatabase database;
+ late BookDatabase database;
 
   static Repository get() {
     return _repo;
@@ -46,7 +45,7 @@ class Repository {
     //http request, catching error like no internet connection.
     //If no internet is available for example response is
     //TODO restricted language to english, feel free to remove that
-     http.Response response = await http.get("https://www.googleapis.com/books/v1/volumes?q=$input&langRestrict=en")
+     http.Response response = await http.get(Uri.parse("https://www.googleapis.com/books/v1/volumes?q=$input&langRestrict=en"))
          .catchError((resp) {});
      
      if(response == null) {
@@ -64,28 +63,28 @@ class Repository {
 
     for(dynamic jsonBook in list) {
       Book book = parseNetworkBook(jsonBook);
-      networkBooks[book.id] = book;
+      networkBooks[book.id!] = book;
     }
 
     //Adds information (if available) from database
     List<Book> databaseBook = await database.getBooks([]..addAll(networkBooks.keys));
     for(Book book in databaseBook) {
-      networkBooks[book.id] = book;
+      networkBooks[book.id!] = book;
     }
 
     return new ParsedResponse(response.statusCode, []..addAll(networkBooks.values));
   }
 
   Future<ParsedResponse<Book>> getBook(String id) async {
-    http.Response response = await http.get("https://www.googleapis.com/books/v1/volumes/$id")
+    http.Response response = await http.get(Uri.parse("https://www.googleapis.com/books/v1/volumes/$id"))
         .catchError((resp) {});
     if(response == null) {
-      return new ParsedResponse(NO_INTERNET, null);
+      return new ParsedResponse(NO_INTERNET, Book());
     }
 
     //If there was an error return null
     if(response.statusCode < 200 || response.statusCode >= 300) {
-      return new ParsedResponse(response.statusCode, null);
+      return new ParsedResponse(response.statusCode, Book());
     }
 
     dynamic jsonBook = jsonDecode(response.body);
@@ -93,11 +92,9 @@ class Repository {
     Book book = parseNetworkBook(jsonBook);
 
     //Adds information (if available) from database
-    List<Book> databaseBook = await database.getBooks([]..add(book.id));
+    List<Book> databaseBook = await database.getBooks([]..add(book.id!));
     for(Book databaseBook in databaseBook) {
-      if(databaseBook != null) {
-        book = databaseBook;
-      }
+      book = databaseBook;
     }
 
     return new ParsedResponse(response.statusCode, book);
@@ -117,9 +114,7 @@ class Repository {
    //     statusCode = book.statusCode;
   //    }
 
-      if(book.body != null) {
-        books.add(book.body);
-      }
+      books.add(book.body);
     }
 
     return books;
@@ -140,7 +135,7 @@ class Repository {
 
 
     for(String id in idsToFetch) {
-      http.Response response = await http.get("https://www.googleapis.com/books/v1/volumes/$id")
+      http.Response response = await http.get(Uri.parse("https://www.googleapis.com/books/v1/volumes/$id"))
           .catchError((resp) {});
     /*  if(response == null) {
         return new ParsedResponse(NO_INTERNET, null);

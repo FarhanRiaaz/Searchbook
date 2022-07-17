@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:test_app/data/repository.dart';
-import 'package:test_app/pages/universal/book_notes_page.dart';
 import 'package:test_app/model/Book.dart';
-import 'package:test_app/utils/utils.dart';
-import 'package:test_app/widgets/BookCard.dart';
-import 'package:test_app/widgets/book_card_compact.dart';
-import 'package:test_app/widgets/book_card_minimalistic.dart';
 
 
 abstract class AbstractSearchBookState<T extends StatefulWidget> extends State<T> {
-  List<Book> items = new List();
+  List<Book> items = [];
 
   final subject = new PublishSubject<String>();
 
@@ -34,7 +29,8 @@ abstract class AbstractSearchBookState<T extends StatefulWidget> extends State<T
         if(books.isOk()) {
           items = books.body;
         } else {
-          scaffoldKey.currentState.showSnackBar(new SnackBar(content: new Text("Something went wrong, check your internet connection")));
+
+          scaffoldKey.currentState?.showSnackBar( SnackBar(content:  Text("Something went wrong, check your internet connection")));
         }
       });
     });
@@ -56,7 +52,7 @@ abstract class AbstractSearchBookState<T extends StatefulWidget> extends State<T
   @override
   void initState() {
     super.initState();
-    subject.stream.debounce(new Duration(milliseconds: 600)).listen(_textChanged);
+    subject.stream.debounceTime(Duration(milliseconds: 600)).listen(_textChanged);
   }
 
 }

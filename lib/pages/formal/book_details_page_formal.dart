@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
 import 'package:test_app/data/repository.dart';
 import 'package:test_app/model/Book.dart';
 import 'package:test_app/pages/abstract/book_details_page_abstract.dart';
@@ -44,13 +43,13 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
                 padding: const EdgeInsets.all(8.0),
                 child: new Center(
                   child: new Hero(
-                    tag: widget.book.id,
-                    child: new Image.network(widget.book.url, fit: BoxFit.cover,),
+                    tag: widget.book.id!,
+                    child: new Image.network(widget.book.url!, fit: BoxFit.cover,),
                   ),
                 ),
               ),
               new SizedBox(height: 16.0,),
-              new Text(widget.book.title, style: const TextStyle(fontSize: 24.0, fontFamily: "CrimsonText"),),
+              new Text(widget.book.title!, style: const TextStyle(fontSize: 24.0, fontFamily: "CrimsonText"),),
               new SizedBox(height: 8.0,),
               new Text("${widget.book.author} - Sience Ficition", style: const TextStyle(fontSize: 16.0, fontFamily: "CrimsonText", fontWeight: FontWeight.w400),),
               new Divider(height: 32.0, color: Colors.black38,),
@@ -69,7 +68,7 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
                       onClick: (){
                         print("The id is: ${widget.book.id}");
                         Clipboard.setData(new ClipboardData(text: widget.book.id));
-                        key.currentState.showSnackBar(new SnackBar(content: new Text("Copied: \"${widget.book.id}\" to clipboard")));
+                        key.currentState?.showSnackBar( SnackBar(content:  Text("Copied: \"${widget.book.id}\" to clipboard")));
                       },
                       iconData: Icons.bookmark,
                       text: "Bookmark",
@@ -80,13 +79,13 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
                     child: new IconButtonText(
                       onClick: (){
                         setState(() {
-                          widget.book.starred = !widget.book.starred;
+                          widget.book.starred = !widget.book.starred!;
                         });
                         Repository.get().updateBook(widget.book);
                       },
-                      iconData: widget.book.starred? Icons.remove : Icons.add,
-                      text: widget.book.starred? "Remove"  :"Mark as read",
-                      selected: widget.book.starred,
+                      iconData: widget.book.starred!? Icons.remove : Icons.add,
+                      text: widget.book.starred!? "Remove"  :"Mark as read",
+                      selected: widget.book.starred!,
                     ),
                   ),
                 ],
@@ -94,7 +93,7 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
               new Divider(height: 32.0, color: Colors.black38,),
               new Text("Description", style: const TextStyle(fontSize: 20.0, fontFamily: "CrimsonText"),),
               new SizedBox(height: 8.0,),
-              new Text(widget.book.description, style: const TextStyle(fontSize: 16.0),),
+              new Text(widget.book.description!, style: const TextStyle(fontSize: 16.0),),
             ],
           ),
         ),
@@ -104,12 +103,11 @@ class _BookDetailsPageFormalState extends AbstractBookDetailsPageState<BookDetai
 
 }
 
-
 class IconButtonText extends StatelessWidget {
 
 
 
-  IconButtonText({@required this.onClick, @required this.iconData, @required this.text, this.selected});
+  IconButtonText({required this.onClick, required this.iconData, required this.text, required this.selected});
 
 
   final VoidCallback onClick;

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:test_app/data/repository.dart';
 import 'package:test_app/model/Book.dart';
-import 'package:test_app/widgets/book_card_compact.dart';
 
 
 abstract class StampCollectionPageAbstractState<T extends StatefulWidget> extends State<T> {
 
 
-  List<Book> items = new List();
+  List<Book> items = [];
 
 
   @override

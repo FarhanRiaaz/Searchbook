@@ -13,16 +13,16 @@ class BookNotesPage extends StatefulWidget  {
 
 
   @override
-  State<StatefulWidget> createState() => new _BookNotesPageState();
+  State<StatefulWidget> createState() =>  _BookNotesPageState();
 
 }
 
 class _BookNotesPageState extends State<BookNotesPage> {
 
 
-  TextEditingController _textController;
+  TextEditingController _textController = TextEditingController();
 
-  final subject = new PublishSubject<String>();
+  final subject =  PublishSubject<String>();
 
 
   @override
@@ -34,8 +34,8 @@ class _BookNotesPageState extends State<BookNotesPage> {
   @override
   void initState() {
     super.initState();
-    _textController = new TextEditingController(text: widget.book.notes);
-    subject.stream.debounce(new Duration(milliseconds: 400)).listen((text){
+    _textController =  TextEditingController(text: widget.book.notes);
+    subject.stream.debounceTime(Duration(milliseconds: 400)).listen((text){
       widget.book.notes = text;
       Repository.get().updateBook(widget.book);
     });
@@ -45,23 +45,23 @@ class _BookNotesPageState extends State<BookNotesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(title: const Text("Notes"),),
-      body: new Container(
-        child: new Padding(
-          padding: new EdgeInsets.all(8.0),
-          child: new Column(
+    return  Scaffold(
+      appBar:  AppBar(title: const Text("Notes"),),
+      body:  Container(
+        child:  Padding(
+          padding:  EdgeInsets.all(8.0),
+          child:  Column(
             children: <Widget>[
-              new Hero(
-                child: new Image.network(widget.book.url),
-                tag: widget.book.id
+               Hero(
+                child:  Image.network(widget.book.url!),
+                tag: widget.book.id!
               ),
-              new Expanded(
-                  child: new Card(
-                    child: new Padding(
-                      padding: new EdgeInsets.all(8.0),
-                      child: new TextField(
-                        style: new TextStyle(fontSize: 18.0, color: Colors.black),
+               Expanded(
+                  child:  Card(
+                    child:  Padding(
+                      padding:  EdgeInsets.all(8.0),
+                      child:  TextField(
+                        style:  TextStyle(fontSize: 18.0, color: Colors.black),
                         maxLines: null,
                         decoration: null,
                         controller: _textController,

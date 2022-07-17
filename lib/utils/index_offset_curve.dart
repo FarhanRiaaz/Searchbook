@@ -11,7 +11,7 @@ class IndexOffsetCurve extends Curve {
 
   @override
   double transform(double t) {
-    return pow(t, (index + 1) * 2 );
+    return pow(t, (index + 1) * 2 ).toDouble();
   }
 
 }

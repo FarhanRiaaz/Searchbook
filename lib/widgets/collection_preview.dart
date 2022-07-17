@@ -1,9 +1,6 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:meta/meta.dart';
-import 'package:test_app/data/repository.dart';
 import 'package:test_app/model/Book.dart';
 import 'package:test_app/pages/formal/book_details_page_formal.dart';
 import 'package:test_app/utils/utils.dart';
@@ -24,7 +21,7 @@ class CollectionPreview extends StatefulWidget {
 
   final bool loading;
 
-  CollectionPreview({this.color = Colors.white, @required this.title, this.books, this.loading = false});
+  CollectionPreview({this.color = Colors.white, required this.title, required this.books, this.loading = false});
 
   @override
   State<StatefulWidget> createState() => new _CollectionPreviewState();
@@ -66,11 +63,11 @@ class _CollectionPreviewState extends State<CollectionPreview> {
                         scrollDirection: Axis.horizontal,
                         children: widget.books.map((book)=>new Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: new Stamp(book.url, width: 100.0, locked: !book.starred, onClick: (){
+                          child: new Stamp(book.url!, width: 100.0, locked: !book.starred!, onClick: (){
                             Navigator.of(context).push(
                                 new FadeRoute(
                                   builder: (BuildContext context) => new BookDetailsPageFormal(book),
-                                  settings: new RouteSettings(name: '/book_detais_formal', isInitialRoute: false),
+                                  settings: new RouteSettings(name: '/book_detais_formal'),
                                 ));
                           },),
                         )).toList()

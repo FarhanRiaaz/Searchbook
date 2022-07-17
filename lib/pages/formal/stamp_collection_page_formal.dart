@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:test_app/data/repository.dart';
 import 'package:test_app/model/Book.dart';
 import 'package:test_app/pages/abstract/stamp_collection_page_abstract.dart';
 import 'package:test_app/pages/formal/book_details_page_formal.dart';
 import 'package:test_app/utils/utils.dart';
 import 'package:test_app/widgets/stamp.dart';
-import 'package:test_app/widgets/book_card_compact.dart';
 
 
 class StampCollectionFormalPage extends StatefulWidget {
@@ -36,7 +34,7 @@ class _StampCollectionPageFormalState extends StampCollectionPageAbstractState<S
       body = new ListView.builder(itemBuilder: (BuildContext context, int index){
         return new Padding(
           padding: const EdgeInsets.all(8.0),
-          child: new Stamp(items[index].url,),
+          child: new Stamp(items[index].url!, onClick: () {  },),
         );
       },
         itemCount: items.length,
@@ -48,11 +46,11 @@ class _StampCollectionPageFormalState extends StampCollectionPageAbstractState<S
     body = new GridView.extent(
       maxCrossAxisExtent: 150.0,
       mainAxisSpacing: 20.0,
-      children: items.map((Book book)=> new Stamp(book.url, width: 90.0, onClick: (){
+      children: items.map((Book book)=>  Stamp(book.url!, width: 90.0, onClick: (){
         Navigator.of(context).push(
             new FadeRoute(
-              builder: (BuildContext context) => new BookDetailsPageFormal(book),
-              settings: new RouteSettings(name: '/book_detais_formal', isInitialRoute: false),
+              builder: (BuildContext context) =>  BookDetailsPageFormal(book),
+              settings: new RouteSettings(name: '/book_detais_formal'),
             ));
       },)).toList(),
 

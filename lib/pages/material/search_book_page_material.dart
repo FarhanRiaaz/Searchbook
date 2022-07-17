@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:test_app/data/repository.dart';
 import 'package:test_app/pages/abstract/search_book_page_abstract.dart';
 import 'package:test_app/pages/universal/book_notes_page.dart';
-import 'package:test_app/model/Book.dart';
 import 'package:test_app/utils/utils.dart';
 import 'package:test_app/widgets/BookCard.dart';
-import 'package:test_app/widgets/book_card_compact.dart';
-import 'package:test_app/widgets/book_card_minimalistic.dart';
 
 
 class SearchBookPage extends StatefulWidget {
@@ -48,12 +44,12 @@ class _SearchBookState extends AbstractSearchBookState<SearchBookPage> {
                       Navigator.of(context).push(
                           new FadeRoute(
                             builder: (BuildContext context) => new BookNotesPage(items[index]),
-                            settings: new RouteSettings(name: '/notes', isInitialRoute: false),
+                            settings: new RouteSettings(name: '/notes'),
                           ));
                     },
                     onStarClick: (){
                       setState(() {
-                        items[index].starred = !items[index].starred;
+                        items[index].starred = !items[index].starred!;
                       });
                       Repository.get().updateBook(items[index]);
                     },

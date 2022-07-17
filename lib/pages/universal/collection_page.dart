@@ -16,7 +16,7 @@ class CollectionPage extends StatefulWidget {
 class _CollectionPageState extends State<CollectionPage> {
 
 
-  List<Book> _items = new List();
+  List<Book> _items = [];
 
   bool _isLoading = false;
 
@@ -54,12 +54,12 @@ class _CollectionPageState extends State<CollectionPage> {
                     Navigator.of(context).push(
                         new FadeRoute(
                           builder: (BuildContext context) => new BookNotesPage(_items[index]),
-                          settings: new RouteSettings(name: '/notes', isInitialRoute: false),
+                          settings: new RouteSettings(name: '/notes'),
                         ));
                   },
                   onStarClick: (){
                     setState(() {
-                      _items[index].starred = !_items[index].starred;
+                      _items[index].starred = !_items[index].starred!;
                     });
                     Repository.get().updateBook(_items[index]);
                   },

@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:test_app/data/repository.dart';
 import 'package:test_app/pages/abstract/search_book_page_abstract.dart';
-import 'package:test_app/pages/universal/book_notes_page.dart';
-import 'package:test_app/model/Book.dart';
 import 'package:test_app/pages/formal/book_details_page_formal.dart';
 import 'package:test_app/utils/utils.dart';
-import 'package:test_app/widgets/BookCard.dart';
 import 'package:test_app/widgets/book_card_compact.dart';
-import 'package:test_app/widgets/book_card_minimalistic.dart';
 
 
 class SearchBookPageNew extends StatefulWidget {
@@ -73,7 +67,7 @@ class _SearchBookStateNew extends AbstractSearchBookState<SearchBookPageNew> {
               Navigator.of(context).push(
                   new FadeRoute(
                     builder: (BuildContext context) => new BookDetailsPageFormal(items[index]),
-                    settings: new RouteSettings(name: '/book_detais_formal', isInitialRoute: false),
+                    settings: new RouteSettings(name: '/book_detais_formal'),
                   ));
             },);
           },
