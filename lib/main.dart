@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:test_app/pages/universal/collection_page.dart';
 import 'package:test_app/pages/formal/stamp_collection_page_formal.dart';
 import 'package:test_app/pages/home_page.dart';
@@ -10,7 +13,10 @@ import 'package:redux/redux.dart';
 import 'package:test_app/redux/app_state.dart';
 import 'package:test_app/redux/reducers.dart';
 
-void main() => runApp(new MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
+  return runApp(new MyApp());}
 
 class MyApp extends StatelessWidget {
 
@@ -37,4 +43,11 @@ class MyApp extends StatelessWidget {
   }
 
 
+}
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
 }

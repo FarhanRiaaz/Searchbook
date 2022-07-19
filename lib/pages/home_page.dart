@@ -121,7 +121,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
         List<Book> books = [];
         if(snapshot.data != null) books = snapshot.data!;
-        return  CollectionPreview(
+        return
+          CollectionPreview(
           books: books,
           color: color,
           title: name,
