@@ -23,7 +23,7 @@ class _NavigationScreenState extends State<NavigationScreen>
     BookScreen("formal", cardsFirstOpenController!),
     SearchBookPageNew(),
     StampCollectionFormalPage(),
-    SearchBookPage(),
+    // Text("Profile"),
   ];
 
   bool init = true;
@@ -97,11 +97,11 @@ class _NavigationScreenState extends State<NavigationScreen>
                   text: 'My Stamps',
                   backgroundColor: Colors.purple.shade100,
                 ),
-                GButton(
-                  icon: LineIcons.user,
-                  text: 'Profile',
-                  backgroundColor: Colors.amber.shade100,
-                ),
+                // GButton(
+                //   icon: LineIcons.user,
+                //   text: 'Profile',
+                //   backgroundColor: Colors.amber.shade100,
+                // ),
               ],
               selectedIndex: _selectedIndex,
               onTabChange: (index) {

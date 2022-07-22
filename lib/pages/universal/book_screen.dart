@@ -5,9 +5,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:test_app/data/repository.dart';
 import 'package:test_app/mobx/book_store.dart';
 import 'package:test_app/model/categories.dart';
+import 'package:test_app/pages/abstract/search_book_page_abstract.dart';
+import 'package:test_app/pages/formal/book_details_page_formal.dart';
 import 'package:test_app/utils/index_offset_curve.dart';
+import 'package:test_app/utils/utils.dart';
 import 'package:test_app/widgets/chips_widget.dart';
 import 'package:test_app/widgets/collection_preview.dart';
+import 'package:test_app/widgets/stamp.dart';
 
 import '../../model/Book.dart';
 
@@ -20,10 +24,10 @@ class BookScreen extends StatefulWidget {
   static Repository repository = Repository.get();
 
   @override
-  State<BookScreen> createState() => _BookScreenState();
+  _BookScreenStateNew createState() => _BookScreenStateNew();
 }
 
-class _BookScreenState extends State<BookScreen> {
+class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
   BookStore bookStore = BookStore();
 
   @override
@@ -77,7 +81,7 @@ class _BookScreenState extends State<BookScreen> {
                                     child: Icon(Icons.search),
                                   ),
                                   border: InputBorder.none),
-                              onChanged: (string) => () {},
+                              onChanged: (string) => (subject.add(string)),
                             ),
                           )),
                     ),
@@ -85,56 +89,107 @@ class _BookScreenState extends State<BookScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Text(
-                        "Popular Genre",
+                        bookStore.currentCategory?.title == null
+                            ? "Popular Genre"
+                            : bookStore.currentCategory!.title!,
                         style: textStyle,
                       ),
                     ),
                     SizedBox(height: 8.0),
                     getGridForCategories(),
                     _buildExpandable(),
-                    SizedBox(height: 16.0),
-                    wrapInAnimation(
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text(
-                            "Top books",
-                            style: textStyle,
-                          ),
-                        ),
-                        0),
-                    wrapInAnimation(
-                        collectionPreview(Color(0xffffffff), "Biographies", [
-                          "wO3PCgAAQBAJ",
-                          "_LFSBgAAQBAJ",
-                          "8U2oAAAAQBAJ",
-                          "yG3PAK6ZOucC",
-                        ]),
-                        1),
-                    wrapInAnimation(
-                        collectionPreview(Color(0xffffffff), "Fiction", [
-                          "OsUPDgAAQBAJ",
-                          "3e-dDAAAQBAJ",
-                          "-ITZDAAAQBAJ",
-                          "rmBeDAAAQBAJ",
-                          "vgzJCwAAQBAJ",
-                        ]),
-                        2),
-                    wrapInAnimation(
-                        collectionPreview(
-                            Color(0xffffffff),
-                            "Mystery & Thriller",
-                            ["1Y9gDQAAQBAJ", "Pz4YDQAAQBAJ", "UXARDgAAQBAJ"]),
-                        3),
-                    wrapInAnimation(
-                        collectionPreview(
-                            Color(0xffffffff), "Sience Ficition", [
-                          "JMYUDAAAQBAJ",
-                          "PzhQydl-QD8C",
-                          "nkalO3OsoeMC",
-                          "VO8nDwAAQBAJ",
-                          "Nxl0BQAAQBAJ"
-                        ]),
-                        4),
+                    items.isNotEmpty
+                        ? GridView.extent(
+                            maxCrossAxisExtent: 150,
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            children: items
+                                .map((Book book) => Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Stamp(
+                                        book.url!,
+                                        width: 105.0,
+                                        onClick: () {
+                                          Navigator.of(context).push(FadeRoute(
+                                            builder: (BuildContext context) =>
+                                                Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child:
+                                                  BookDetailsPageFormal(book),
+                                            ),
+                                            settings: RouteSettings(
+                                                name: '/book_detais_formal'),
+                                          ));
+                                        },
+                                      ),
+                                    ))
+                                .toList(),
+                          )
+                        : SizedBox.shrink(),
+                    items.isEmpty && isLoading == false
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                                wrapInAnimation(
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      child: Text(
+                                        "Top books",
+                                        style: textStyle,
+                                      ),
+                                    ),
+                                    0),
+                                wrapInAnimation(
+                                    collectionPreview(
+                                        Color(0xffffffff), "Biographies", [
+                                      "wO3PCgAAQBAJ",
+                                      "_LFSBgAAQBAJ",
+                                      "8U2oAAAAQBAJ",
+                                      "yG3PAK6ZOucC",
+                                    ]),
+                                    1),
+                                wrapInAnimation(
+                                    collectionPreview(
+                                        Color(0xffffffff), "Fiction", [
+                                      "OsUPDgAAQBAJ",
+                                      "3e-dDAAAQBAJ",
+                                      "-ITZDAAAQBAJ",
+                                      "rmBeDAAAQBAJ",
+                                      "vgzJCwAAQBAJ",
+                                    ]),
+                                    2),
+                                wrapInAnimation(
+                                    collectionPreview(Color(0xffffffff),
+                                        "Mystery & Thriller", [
+                                      "1Y9gDQAAQBAJ",
+                                      "Pz4YDQAAQBAJ",
+                                      "UXARDgAAQBAJ"
+                                    ]),
+                                    3),
+                                wrapInAnimation(
+                                    collectionPreview(
+                                        Color(0xffffffff), "Sience Ficition", [
+                                      "JMYUDAAAQBAJ",
+                                      "PzhQydl-QD8C",
+                                      "nkalO3OsoeMC",
+                                      "VO8nDwAAQBAJ",
+                                      "Nxl0BQAAQBAJ"
+                                    ]),
+                                    4),
+                              ])
+                        : isLoading == true
+                            ? Column(
+                                children: [
+                                  SizedBox(height: 100),
+                                  Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                ],
+                              )
+                            : SizedBox.shrink(),
                   ],
                 ))
               ],
@@ -164,10 +219,9 @@ class _BookScreenState extends State<BookScreen> {
     return FutureBuilder<List<Book>>(
       future: Repository.get().getBooksByIdFirstFromDatabaseAndCache(ids),
       builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
-        List<Book> books = [];
-        if (snapshot.data != null) books = snapshot.data!;
+        if (snapshot.data != null) bookStore.loadedBooks = snapshot.data!;
         return CollectionPreview(
-          books: books,
+          books: bookStore.books,
           color: color,
           title: name,
           loading: snapshot.data == null,
@@ -187,6 +241,7 @@ class _BookScreenState extends State<BookScreen> {
               bookStore.category;
               return ChipsWidget(e, () {
                 bookStore.updateCurrentCategory(e);
+                subject.add(e.title!);
               },
                   bookStore.currentCategory == e
                       ? Colors.blue.shade500
@@ -207,6 +262,7 @@ class _BookScreenState extends State<BookScreen> {
               bookStore.allCategories;
               return ChipsWidget(e, () {
                 bookStore.updateCurrentCategory(e);
+                subject.add(e.title!);
               },
                   bookStore.currentCategory == e
                       ? Colors.blue.shade500
