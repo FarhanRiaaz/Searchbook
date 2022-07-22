@@ -334,44 +334,43 @@ class _BookScreenState extends State<BookScreen> {
 
   _buildExpandable() {
     return ExpandableNotifier(
-      child:
-          Expandable(
-            collapsed: Row(
-              children: [
-                getExpandedCategories(bookStore.allCategories.sublist(0, 3)),
-                Padding(
-                  padding: const EdgeInsets.only(right: 24.0, top: 8),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: ExpandableButton(
-                      child: Text(
-                        "See all >",
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          color: Colors.blue,
-                        ),
-                      ),
+      child: Expandable(
+        collapsed: Row(
+          children: [
+            getExpandedCategories(bookStore.allCategories.sublist(0, 3)),
+            Padding(
+              padding: const EdgeInsets.only(right: 24.0, top: 8),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: ExpandableButton(
+                  child: Text(
+                    "See all >",
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      color: Colors.blue,
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
-            expanded: Column(children: [
-              getExpandedCategories(bookStore.allCategories.sublist(3, 7)),
-              getExpandedCategories(bookStore.allCategories.sublist(7, 9)),
-              Padding(
-                padding: const EdgeInsets.only(right: 24.0, top: 8),
-                child: Align(
-                    alignment: Alignment.centerRight,
-                    child: ExpandableButton(
-                        child: Icon(
-                      Icons.cancel_rounded,
-                      color: Colors.blue,
-                    ))),
-              )
-            ]),
-          ),
-
+          ],
+        ),
+        expanded: Column(children: [
+          getExpandedCategories(bookStore.allCategories.sublist(0, 3)),
+          getExpandedCategories(bookStore.allCategories.sublist(3, 7)),
+          getExpandedCategories(bookStore.allCategories.sublist(7, 9)),
+          Padding(
+            padding: const EdgeInsets.only(right: 24.0, top: 8),
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: ExpandableButton(
+                    child: Icon(
+                  Icons.cancel_rounded,
+                  color: Colors.blue,
+                ))),
+          )
+        ]),
+      ),
     );
   }
 }
