@@ -41,7 +41,7 @@ class _StampState extends State<Stamp> with SingleTickerProviderStateMixin {
     var width = widget.width;
     var height = widget.width * widget.aspectRatio;
 
-    var holeRadius = widget.relativeHoleRadius * (width / 10.0);
+    var holeRadius = widget.relativeHoleRadius * (width / 7.2);
 
     Widget result = GestureDetector(
       onTap: widget.onClick,
@@ -79,19 +79,19 @@ class _StampState extends State<Stamp> with SingleTickerProviderStateMixin {
       ),
     );
 
-    if (widget.locked) {
-      stackChildren.add(Container(
-        color: const Color(0xbb000000),
-        width: card_width,
-        height: card_height,
-      ));
-      stackChildren.add(Align(
-          alignment: Alignment.center,
-          child: Icon(
-            Icons.lock,
-            color: Colors.white,
-          )));
-    }
+    // if (widget.locked) {
+    //   stackChildren.add(Container(
+    //     color: const Color(0xbb000000),
+    //     width: card_width,
+    //     height: card_height,
+    //   ));
+    //   stackChildren.add(Align(
+    //       alignment: Alignment.center,
+    //       child: Icon(
+    //         Icons.lock,
+    //         color: Colors.white,
+    //       )));
+    // }
 
     return ClipPath(
       clipper: StampClipper(holeRadius: holeRadius),

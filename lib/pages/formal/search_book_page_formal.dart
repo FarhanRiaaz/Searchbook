@@ -8,7 +8,7 @@ import 'package:test_app/widgets/book_card_compact.dart';
 class SearchBookPageNew extends StatefulWidget {
 
   @override
-  _SearchBookStateNew createState() => new _SearchBookStateNew();
+  _SearchBookStateNew createState() =>  _SearchBookStateNew();
 }
 
 class _SearchBookStateNew extends AbstractSearchBookState<SearchBookPageNew> {
@@ -20,35 +20,35 @@ class _SearchBookStateNew extends AbstractSearchBookState<SearchBookPageNew> {
       fontFamily: 'Butler',
       fontWeight: FontWeight.w400
     );
-    return new Scaffold(
+    return  Scaffold(
       key: scaffoldKey,
-      body: new CustomScrollView(
+      body:  CustomScrollView(
         slivers: <Widget>[
-          new SliverAppBar(
+           SliverAppBar(
             forceElevated: true,
             backgroundColor: Colors.white,
             elevation: 1.0,
-            iconTheme: new IconThemeData(color: Colors.black),
+            iconTheme:  IconThemeData(color: Colors.black),
           ),
-          new SliverPadding(
+           SliverPadding(
             padding: const EdgeInsets.all(16.0),
-            sliver: new SliverToBoxAdapter(
-              child: new Column(
+            sliver:  SliverToBoxAdapter(
+              child:  Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new SizedBox(height: 8.0,),
-                  new Text("Search for Books", style: textStyle,),
-                  new SizedBox(height: 16.0),
-                  new Card(
+                   SizedBox(height: 8.0,),
+                   Text("Search for Books", style: textStyle,),
+                   SizedBox(height: 16.0),
+                   Card(
                       elevation: 4.0,
-                      child: new Padding(
+                      child:  Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: new TextField(
-                          decoration: new InputDecoration(
+                        child:  TextField(
+                          decoration:  InputDecoration(
                               hintText: "What books did your read?",
-                              prefixIcon: new Padding(
+                              prefixIcon:  Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: new Icon(Icons.search),
+                                child:  Icon(Icons.search),
                               ),
                               border: InputBorder.none
                           ),
@@ -56,18 +56,18 @@ class _SearchBookStateNew extends AbstractSearchBookState<SearchBookPageNew> {
                         ),
                       )
                   ),
-                  new SizedBox(height: 16.0,),
+                   SizedBox(height: 16.0,),
                 ],
               ),
             ),
           ),
-          isLoading? new SliverToBoxAdapter(child: new Center(child: new CircularProgressIndicator()),): new SliverToBoxAdapter(),
-          new SliverList(delegate: new SliverChildBuilderDelegate((BuildContext context, int index){
-            return new BookCardCompact(items[index], onClick: (){
+          isLoading?  SliverToBoxAdapter(child:  Center(child:  CircularProgressIndicator()),):  SliverToBoxAdapter(),
+           SliverList(delegate:  SliverChildBuilderDelegate((BuildContext context, int index){
+            return  BookCardCompact(items[index], onClick: (){
               Navigator.of(context).push(
-                  new FadeRoute(
-                    builder: (BuildContext context) => new BookDetailsPageFormal(items[index]),
-                    settings: new RouteSettings(name: '/book_detais_formal'),
+                   FadeRoute(
+                    builder: (BuildContext context) =>  BookDetailsPageFormal(items[index]),
+                    settings:  RouteSettings(name: '/book_detais_formal'),
                   ));
             },);
           },

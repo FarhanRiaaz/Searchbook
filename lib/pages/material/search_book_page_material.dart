@@ -4,6 +4,7 @@ import 'package:test_app/pages/abstract/search_book_page_abstract.dart';
 import 'package:test_app/pages/universal/book_notes_page.dart';
 import 'package:test_app/utils/utils.dart';
 import 'package:test_app/widgets/BookCard.dart';
+import 'package:test_app/widgets/book_card_minimalistic.dart';
 
 
 class SearchBookPage extends StatefulWidget {
@@ -58,11 +59,6 @@ class _SearchBookState extends AbstractSearchBookState<SearchBookPage> {
                 },
               ),
             ),
-        /*  new Expanded(
-            child: new GridView.builder(gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 0.65), itemBuilder: (BuildContext context, int index) {
-              return new BookCardMinimalistic(_items[index]);
-            }, itemCount: _items.length,),
-          )*/
           ],
         ),
       ),

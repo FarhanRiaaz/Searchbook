@@ -10,10 +10,12 @@ dependencies:
 
   sqflite: ^2.0.3
   path_provider: ^2.0.11
-  redux: ^5.0.0
+  mobx: 2.0.7
+  flutter_mobx: 2.0.5
   http: ^0.13.4
-  flutter_redux: ^0.10.0
   cached_network_image: ^3.2.1
+  google_nav_bar: ^5.0.6
+  line_icons: ^2.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -24,6 +26,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  mobx_codegen: 2.0.6
+  build_runner: ^2.2.0
 
 
 # For information on the generic Dart part of this file, see the
