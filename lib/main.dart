@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:test_app/data/repository.dart';
+import 'package:test_app/mobx/book_store.dart';
 import 'package:test_app/pages/universal/collection_page.dart';
 import 'package:test_app/pages/formal/stamp_collection_page_formal.dart';
 import 'package:test_app/pages/navigation.dart';
@@ -11,26 +13,27 @@ import 'package:test_app/pages/material/stamp_collection_page_material.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-  return runApp(new MyApp());
+  return runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  BookStore bookStore = BookStore();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Book search',
-      theme: new ThemeData(
-        primaryColor: new Color(0xFF0F2533),
+      theme:  ThemeData(
+        primaryColor:  Color(0xFF0F2533),
       ),
       routes: {
-        '/': (BuildContext context) => new NavigationScreen(),
-        '/search_material': (BuildContext context) => new SearchBookPage(),
-        '/search_formal': (BuildContext context) => new SearchBookPageNew(),
-        '/collection': (BuildContext context) => new CollectionPage(),
+        '/': (BuildContext context) =>  NavigationScreen(),
+        '/search_material': (BuildContext context) =>  SearchBookPage(),
+        '/search_formal': (BuildContext context) =>  SearchBookPageNew(),
+        '/collection': (BuildContext context) =>  CollectionPage(),
         '/stamp_collection_material': (BuildContext context) =>
-            new StampCollectionPage(),
+             StampCollectionPage(),
         '/stamp_collection_formal': (BuildContext context) =>
-            new StampCollectionFormalPage(),
+             StampCollectionFormalPage(),
       },
     );
   }
