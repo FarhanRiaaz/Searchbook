@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
@@ -93,22 +95,22 @@ class _NavigationScreenState extends State<NavigationScreen>
                 GButton(
                   icon: Icons.home,
                   text: 'Home',
-                  backgroundColor: Colors.pink.shade300,
+                  backgroundColor: Colors.pink.shade200,
                 ),
                 GButton(
                   icon: Icons.explore,
                   text: 'Explore',
-                  backgroundColor: Colors.blue.shade300,
+                  backgroundColor: Colors.blue.shade200,
                 ),
                 GButton(
                   icon: LineIcons.stamp,
                   text: 'My Stamps',
-                  backgroundColor: Colors.deepPurpleAccent.shade100,
+                  backgroundColor: Colors.purple.shade100,
                 ),
                 GButton(
                   icon: LineIcons.user,
                   text: 'Profile',
-                  backgroundColor: Colors.amber.shade300,
+                  backgroundColor: Colors.amber.shade100,
                 ),
               ],
               selectedIndex: _selectedIndex,
@@ -153,10 +155,12 @@ class _BookScreenState extends State<BookScreen> {
           SizedBox(
             height: 60,
           ),
-          Icon(
-            Icons.sticky_note_2_outlined,
-            size: 70,
-          ),
+          ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxHeight: 80, maxWidth: 100, minHeight: 50, minWidth: 100),
+              child: CachedNetworkImage(
+                  imageUrl:
+                      "https://cdn1.iconfinder.com/data/icons/online-education-indigo-vol-2/256/Know_-_How-512.png")),
           Expanded(
             child: CustomScrollView(
               slivers: <Widget>[
@@ -203,6 +207,7 @@ class _BookScreenState extends State<BookScreen> {
                     ),
                     SizedBox(height: 8.0),
                     getGridForCategories(),
+                    _buildExpandable(),
                     SizedBox(height: 16.0),
                     wrapInAnimation(
                         Padding(
@@ -304,6 +309,69 @@ class _BookScreenState extends State<BookScreen> {
                       : Colors.white);
             });
           }).toList())),
+    );
+  }
+
+  Widget getExpandedCategories(List<Category> categories) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+              children: categories.map((e) {
+            return Observer(builder: (context) {
+              bookStore.allCategories;
+              return ChipsWidget(e, () {
+                bookStore.updateCurrentCategory(e);
+              },
+                  bookStore.currentCategory == e
+                      ? Colors.blue.shade500
+                      : Colors.white);
+            });
+          }).toList())),
+    );
+  }
+
+  _buildExpandable() {
+    return ExpandableNotifier(
+      child:
+          Expandable(
+            collapsed: Row(
+              children: [
+                getExpandedCategories(bookStore.allCategories.sublist(0, 3)),
+                Padding(
+                  padding: const EdgeInsets.only(right: 24.0, top: 8),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: ExpandableButton(
+                      child: Text(
+                        "See all >",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            expanded: Column(children: [
+              getExpandedCategories(bookStore.allCategories.sublist(3, 7)),
+              getExpandedCategories(bookStore.allCategories.sublist(7, 9)),
+              Padding(
+                padding: const EdgeInsets.only(right: 24.0, top: 8),
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: ExpandableButton(
+                        child: Icon(
+                      Icons.cancel_rounded,
+                      color: Colors.blue,
+                    ))),
+              )
+            ]),
+          ),
+
     );
   }
 }
