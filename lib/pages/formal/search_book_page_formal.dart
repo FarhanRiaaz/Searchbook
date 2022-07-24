@@ -127,20 +127,20 @@ class _SearchBookStateNew extends AbstractSearchBookState<SearchBookPageNew> {
     return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: bookStore.category.map((e) {
-          return Observer(builder: (context) {
-            bookStore.category;
-            return ChipsWidget(e, () {
-              bookStore.updateCurrentCategory(e);
-              subject.add(e.title!);
-            },
-                bookStore.currentCategory == e
-                    ? Color(0xff31A7FB)
-                    : Colors.white);
-          });
-        }).toList()));
+              return Observer(builder: (context) {
+                bookStore.category;
+                return ChipsWidget(e, () {
+                  bookStore.updateCurrentCategory(e);
+                  subject.add(e.title!);
+                },
+                    bookStore.currentCategory == e
+                        ? Color(0xff31A7FB)
+                        : Colors.white);
+              });
+            }).toList()));
   }
 
   Widget getExpandedCategories(List<Category> categories) {
@@ -182,20 +182,19 @@ class _SearchBookStateNew extends AbstractSearchBookState<SearchBookPageNew> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-
-          getExpandedCategories(bookStore.allCategories.sublist(0, 3)),
-          getExpandedCategories(bookStore.allCategories.sublist(3, 6)),
-          getExpandedCategories(bookStore.allCategories.sublist(6, 9)),
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0, top: 8),
-            child: Align(
-                alignment: Alignment.bottomRight,
-                child: ExpandableButton(
-                    child: Icon(
-                  Icons.keyboard_arrow_up,
-                ))),
-          )
-        ]),
+              getExpandedCategories(bookStore.allCategories.sublist(0, 3)),
+              getExpandedCategories(bookStore.allCategories.sublist(3, 6)),
+              getExpandedCategories(bookStore.allCategories.sublist(6, 9)),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0, top: 8),
+                child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: ExpandableButton(
+                        child: Icon(
+                      Icons.keyboard_arrow_up,
+                    ))),
+              )
+            ]),
       ),
     );
   }
