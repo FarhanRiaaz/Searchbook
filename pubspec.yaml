@@ -52,6 +52,8 @@ flutter:
     - assets/logout.png
     - assets/prof.png
     - assets/stamp.png
+    - assets/welcome.png
+    - assets/google.png
 
 
   # To add assets to your application, add an assets section, like this:

@@ -9,6 +9,7 @@ import 'package:test_app/pages/navigation.dart';
 import 'package:test_app/pages/material/search_book_page_material.dart';
 import 'package:test_app/pages/formal/search_book_page_formal.dart';
 import 'package:test_app/pages/material/stamp_collection_page_material.dart';
+import 'package:test_app/pages/universal/login_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
         primaryColor:  Color(0xFF0F2533),
       ),
       routes: {
-        '/': (BuildContext context) =>  NavigationScreen(),
+        '/': (BuildContext context) =>  LoginScreen(),
+        '/navigation': (BuildContext context) =>  NavigationScreen(),
         '/search_material': (BuildContext context) =>  SearchBookPage(),
         '/search_formal': (BuildContext context) =>  SearchBookPageNew(),
         '/collection': (BuildContext context) =>  CollectionPage(),

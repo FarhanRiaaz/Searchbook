@@ -238,8 +238,9 @@ class _ProfilePageState extends ProfilePageAbstractState {
                     padding: const EdgeInsets.all(8.0),
                     child: Text("Logout"),
                   ),
-                  //child: Text('Logout'),
-                  onPressed: () {},
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ),
             )

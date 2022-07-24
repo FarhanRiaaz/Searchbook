@@ -5,6 +5,7 @@ import 'package:test_app/data/repository.dart';
 import 'package:test_app/pages/formal/search_book_page_formal.dart';
 import 'package:test_app/pages/formal/stamp_collection_page_formal.dart';
 import 'package:test_app/pages/universal/book_screen.dart';
+import 'package:test_app/pages/universal/login_page.dart';
 import 'package:test_app/pages/universal/profile_page.dart';
 
 class NavigationScreen extends StatefulWidget {
