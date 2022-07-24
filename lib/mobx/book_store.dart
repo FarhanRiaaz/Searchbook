@@ -46,23 +46,22 @@ abstract class _BookStore with Store {
 
   @observable
   List<Category> allCategory = [
-    Category(title: "Detective", isChecked: false),
-    Category(title: "Fantasy", isChecked: false),
-    Category(title: "Horror", isChecked: false),
-    Category(title: "Action", isChecked: false),
-    Category(title: "Adventure", isChecked: false),
-    Category(title: "Classics", isChecked: false),
-    Category(title: "Comic", isChecked: false),
-    Category(title: "Graphic Novel", isChecked: false),
-    Category(title: "Historical Fiction", isChecked: false),
+    Category(title: "Detective"),
+    Category(title: "Fantasy"),
+    Category(title: "Horror"),
+    Category(title: "Action"),
+    Category(title: "Adventure"),
+    Category(title: "Classics"),
+    Category(title: "Comic"),
+    Category(title: "Graphic Novel"),
+    Category(title: "Mystery"),
   ];
 
   @observable
   List<Category> categories = [
-    Category(title: "Fiction", isChecked: false),
-    Category(title: "Non-Fiction", isChecked: false),
-    Category(title: "Mystery", isChecked: false),
-    Category(title: "Thriller", isChecked: false),
+    Category(title: "Fiction"),
+    Category(title: "Historical Fiction"),
+    Category(title: "Thriller"),
   ];
 
   @action

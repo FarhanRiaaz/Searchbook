@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:test_app/data/repository.dart';
 import 'package:test_app/mobx/book_store.dart';
 import 'package:test_app/model/categories.dart';
@@ -46,9 +47,11 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
           ConstrainedBox(
               constraints: BoxConstraints(
                   maxHeight: 80, maxWidth: 100, minHeight: 50, minWidth: 100),
-              child: CachedNetworkImage(
-                  imageUrl:
-                      "https://cdn1.iconfinder.com/data/icons/online-education-indigo-vol-2/256/Know_-_How-512.png")),
+              child: Image.asset(
+                "assets/stamp.png",
+                height: 250,
+                width: 250,
+              )),
           Expanded(
             child: CustomScrollView(
               slivers: <Widget>[
@@ -61,7 +64,10 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
                           child: Text(
                             "Hello, Usman!",
                             style: textStyle.copyWith(
-                                fontWeight: FontWeight.bold, fontSize: 32),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 32,
+                                fontFamily:
+                                    GoogleFonts.ibarraRealNova().fontFamily),
                           ),
                         ),
                         0),
@@ -75,7 +81,11 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
                             child: TextField(
                               decoration: InputDecoration(
                                   hintText: "Search your favourite book",
-                                  hintStyle: TextStyle(color: Colors.black26),
+                                  hintStyle: TextStyle(
+                                      color: Colors.black26,
+                                      fontFamily: GoogleFonts.ibarraRealNova()
+                                          .fontFamily,
+                                      fontSize: 14),
                                   prefixIcon: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Icon(Icons.search),
@@ -92,7 +102,9 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
                         bookStore.currentCategory?.title == null
                             ? "Popular Genre"
                             : bookStore.currentCategory!.title!,
-                        style: textStyle,
+                        style: textStyle.copyWith(
+                            fontFamily:
+                                GoogleFonts.ibarraRealNova().fontFamily),
                       ),
                     ),
                     SizedBox(height: 8.0),
@@ -100,12 +112,13 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
                     _buildExpandable(),
                     items.isNotEmpty
                         ? GridView.extent(
+                            padding: EdgeInsets.zero,
                             maxCrossAxisExtent: 150,
                             shrinkWrap: true,
                             physics: ScrollPhysics(),
                             children: items
                                 .map((Book book) => Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.only(top:8.0,bottom:16.0,left: 24.0,right: 24.0),
                                       child: Stamp(
                                         book.url!,
                                         width: 105.0,
@@ -138,7 +151,10 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
                                           horizontal: 10.0),
                                       child: Text(
                                         "Top books",
-                                        style: textStyle,
+                                        style: textStyle.copyWith(
+                                            fontFamily:
+                                                GoogleFonts.ibarraRealNova()
+                                                    .fontFamily),
                                       ),
                                     ),
                                     0),
@@ -236,18 +252,20 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
       child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: bookStore.category.map((e) {
-            return Observer(builder: (context) {
-              bookStore.category;
-              return ChipsWidget(e, () {
-                bookStore.updateCurrentCategory(e);
-                subject.add(e.title!);
-              },
-                  bookStore.currentCategory == e
-                      ? Colors.blue.shade500
-                      : Colors.white);
-            });
-          }).toList())),
+                return Observer(builder: (context) {
+                  bookStore.category;
+                  return ChipsWidget(e, () {
+                    bookStore.updateCurrentCategory(e);
+                    subject.add(e.title!);
+                  },
+                      bookStore.currentCategory == e
+                          ? Color(0xff31A7FB)
+                          : Colors.white);
+                });
+              }).toList())),
     );
   }
 
@@ -257,18 +275,20 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
       child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: categories.map((e) {
-            return Observer(builder: (context) {
-              bookStore.allCategories;
-              return ChipsWidget(e, () {
-                bookStore.updateCurrentCategory(e);
-                subject.add(e.title!);
-              },
-                  bookStore.currentCategory == e
-                      ? Colors.blue.shade500
-                      : Colors.white);
-            });
-          }).toList())),
+                return Observer(builder: (context) {
+                  bookStore.allCategories;
+                  return ChipsWidget(e, () {
+                    bookStore.updateCurrentCategory(e);
+                    subject.add(e.title!);
+                  },
+                      bookStore.currentCategory == e
+                          ? Color(0xff31A7FB)
+                          : Colors.white);
+                });
+              }).toList())),
     );
   }
 
@@ -276,8 +296,9 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
     return ExpandableNotifier(
       child: Expandable(
         collapsed: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            getExpandedCategories(bookStore.allCategories.sublist(0, 3)),
+            getExpandedCategories(bookStore.allCategories.sublist(0, 2)),
             Padding(
               padding: const EdgeInsets.only(right: 24.0, top: 8),
               child: Align(
@@ -287,6 +308,7 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
                     "See all >",
                     textAlign: TextAlign.end,
                     style: TextStyle(
+                      fontFamily: GoogleFonts.ibarraRealNova().fontFamily,
                       color: Colors.blue,
                     ),
                   ),
@@ -295,21 +317,23 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
             ),
           ],
         ),
-        expanded: Column(children: [
-          getExpandedCategories(bookStore.allCategories.sublist(0, 3)),
-          getExpandedCategories(bookStore.allCategories.sublist(3, 7)),
-          getExpandedCategories(bookStore.allCategories.sublist(7, 9)),
-          Padding(
-            padding: const EdgeInsets.only(right: 24.0, top: 8),
-            child: Align(
-                alignment: Alignment.centerRight,
-                child: ExpandableButton(
-                    child: Icon(
-                  Icons.cancel_rounded,
-                  color: Colors.blue,
-                ))),
-          )
-        ]),
+        expanded: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              getExpandedCategories(bookStore.allCategories.sublist(0, 3)),
+              getExpandedCategories(bookStore.allCategories.sublist(3, 6)),
+              getExpandedCategories(bookStore.allCategories.sublist(6, 9)),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: ExpandableButton(
+                        child: Icon(
+                      Icons.keyboard_arrow_up,
+                    ))),
+              )
+            ]),
       ),
     );
   }

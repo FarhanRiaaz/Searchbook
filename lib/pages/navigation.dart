@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:test_app/data/repository.dart';
 import 'package:test_app/pages/formal/search_book_page_formal.dart';
 import 'package:test_app/pages/formal/stamp_collection_page_formal.dart';
-import 'package:test_app/pages/material/search_book_page_material.dart';
 import 'package:test_app/pages/universal/book_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -23,7 +22,7 @@ class _NavigationScreenState extends State<NavigationScreen>
     BookScreen("formal", cardsFirstOpenController!),
     SearchBookPageNew(),
     StampCollectionFormalPage(),
-    // Text("Profile"),
+    Text("Profile"),
   ];
 
   bool init = true;
@@ -85,23 +84,63 @@ class _NavigationScreenState extends State<NavigationScreen>
                 GButton(
                   icon: Icons.home,
                   text: 'Home',
-                  backgroundColor: Colors.pink.shade200,
+                  textStyle: TextStyle(
+                      fontSize: 12,
+                      fontFamily: GoogleFonts.montserrat().fontFamily,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700),
+                  backgroundColor: Color(0xffFC92AF),
+                  leading: Image.asset(
+                    "assets/nav.png",
+                      height:24,
+                    width: 24,
+                  ),
                 ),
                 GButton(
                   icon: Icons.explore,
                   text: 'Explore',
-                  backgroundColor: Colors.blue.shade200,
+                  textStyle: TextStyle(
+                      fontSize: 12,
+                      fontFamily: GoogleFonts.montserrat().fontFamily,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700),
+                  backgroundColor: Color(0xff6E8BFF),
+                  leading: Image.asset(
+                    "assets/exp.png",
+                    height:24,
+                    width: 24,
+                  ),
                 ),
                 GButton(
-                  icon: LineIcons.stamp,
-                  text: 'My Stamps',
-                  backgroundColor: Colors.purple.shade100,
+                  icon: Icons.airplane_ticket,
+                  text: 'My Stamp',
+                  textStyle: TextStyle(
+                      fontSize: 12,
+                      fontFamily: GoogleFonts.montserrat().fontFamily,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700),
+                  backgroundColor: Color(0xffB86AEC),
+                  leading: Image.asset(
+                    "assets/stamp.png",
+                    height:24,
+                    width: 24,
+                  ),
                 ),
-                // GButton(
-                //   icon: LineIcons.user,
-                //   text: 'Profile',
-                //   backgroundColor: Colors.amber.shade100,
-                // ),
+                GButton(
+                  icon: Icons.verified_user,
+                  text: 'Profile',
+                  textStyle: TextStyle(
+                      fontSize: 12,
+                      fontFamily: GoogleFonts.montserrat().fontFamily,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700),
+                  backgroundColor: Color(0xffFFB95D),
+                  leading: Image.asset(
+                    "assets/prof.png",
+                    height:24,
+                    width: 24,
+                  ),
+                ),
               ],
               selectedIndex: _selectedIndex,
               onTabChange: (index) {

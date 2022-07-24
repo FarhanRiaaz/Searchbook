@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:test_app/model/categories.dart';
 
 class ChipsWidget extends StatelessWidget {
-  const ChipsWidget(this.category, this.callback,this.color, {Key? key}) : super(key: key);
+  const ChipsWidget(this.category, this.callback, this.color, {Key? key})
+      : super(key: key);
   final Category category;
   final VoidCallback callback;
   final Color color;
@@ -17,7 +19,7 @@ class ChipsWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0),
           side: BorderSide(
             color: Colors.black,
-                width: 1.3,
+            width: 1.3,
           ),
         ),
         child: InkWell(
@@ -29,7 +31,13 @@ class ChipsWidget extends StatelessWidget {
           },
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(category.title ?? "chip"),
+            child: Text(
+              category.title ?? "chip",
+              style: TextStyle(
+                  fontFamily: GoogleFonts.openSans().fontFamily,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15),
+            ),
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:test_app/model/Book.dart';
 import 'package:test_app/pages/abstract/stamp_collection_page_abstract.dart';
 import 'package:test_app/pages/formal/book_details_page_formal.dart';
@@ -15,30 +16,19 @@ class _StampCollectionPageFormalState
   @override
   Widget build(BuildContext context) {
     const textStyle = const TextStyle(
-        fontSize: 35.0, fontFamily: 'Butler', fontWeight: FontWeight.w400);
+        fontSize: 34.0, fontFamily: 'Butler', fontWeight: FontWeight.w800);
 
     Widget body;
 
     if (items.isEmpty) {
       body = Center(child: Text("You have no collection yet"));
-    } else {
-      body = ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Stamp(
-              items[index].url!,
-              onClick: () {},
-            ),
-          );
-        },
-        itemCount: items.length,
-        scrollDirection: Axis.horizontal,
-      );
     }
 
     body = GridView.extent(
       maxCrossAxisExtent: 150.0,
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      physics: ScrollPhysics(),
       mainAxisSpacing: 20.0,
       children: items
           .map((Book book) => Stamp(
@@ -62,16 +52,31 @@ class _StampCollectionPageFormalState
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "My Stamps",
-          style: const TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 1.0,
-        iconTheme: IconThemeData(color: Colors.black),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 80.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              "My Stamps",
+              style: textStyle.copyWith(
+                  fontFamily: GoogleFonts.ibarraRealNova().fontFamily,
+                  fontSize: 26),
+            ),
+          ),
+          Expanded(
+              child: CustomScrollView(slivers: <Widget>[
+            SliverList(
+                delegate: SliverChildListDelegate([
+              body,
+            ]))
+          ]))
+        ],
       ),
-      body: body,
     );
   }
 }
