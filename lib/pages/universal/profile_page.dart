@@ -269,7 +269,7 @@ class _ProfilePageState extends ProfilePageAbstractState {
                   ),
                   onPressed: () async {
                     await userStore.handleSignOut().then((value) {
-                      Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
+                      Navigator.pushNamedAndRemoveUntil(context, "/login", (r) => false);
                     });
 
                   },

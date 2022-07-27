@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
             : LoginScreen(),
 
         routes: {
-          '/': (BuildContext context) =>  LoginScreen(),
+          '/login': (BuildContext context) =>  LoginScreen(),
           '/navigation': (BuildContext context) =>  NavigationScreen(),
           '/search_material': (BuildContext context) =>  SearchBookPage(),
           '/search_formal': (BuildContext context) =>  SearchBookPageNew(),
