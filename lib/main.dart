@@ -2,15 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:test_app/data/repository.dart';
 import 'package:test_app/mobx/book_store.dart';
 import 'package:test_app/mobx/user_store.dart';
-import 'package:test_app/pages/universal/collection_page.dart';
-import 'package:test_app/pages/formal/stamp_collection_page_formal.dart';
 import 'package:test_app/pages/navigation.dart';
-import 'package:test_app/pages/material/search_book_page_material.dart';
-import 'package:test_app/pages/formal/search_book_page_formal.dart';
-import 'package:test_app/pages/material/stamp_collection_page_material.dart';
 import 'package:test_app/pages/universal/login_page.dart';
 
 Future<void> main() async {
