@@ -137,9 +137,13 @@ class BookDatabase {
   Future<User> getUser() async {
     var db = await _getDb();
     var result = await db.rawQuery('SELECT * FROM $userTableName');
-    if (result.length == 0)
-      return User(id: 0);
+    if (result.length == 0) return User(id: 0);
     return User.fromMap(result[0]);
+  }
+
+  Future deleteUser() async {
+    var db = await _getDb();
+    await db.rawQuery('DELETE FROM $userTableName');
   }
 
   Future close() async {

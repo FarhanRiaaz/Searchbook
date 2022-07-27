@@ -10,11 +10,6 @@ class UserStore = _UserStore with _$UserStore;
 abstract class _UserStore with Store {
   // constructor:---------------------------------------------------------------
   _UserStore() {
-    Repository.get().getUser().then((value) {
-      if (value.id != 0) {
-        user = value;
-      }
-    });
     googleSignIn = GoogleSignIn(
       serverClientId:
           '1041713167388-u3vb1ni0998vlae632petp0o6afp34d3.apps.googleusercontent.com',
@@ -23,6 +18,11 @@ abstract class _UserStore with Store {
         'https://www.googleapis.com/auth/contacts.readonly',
       ],
     );
+    Repository.get().getUser().then((value) {
+      if (value.id != 0) {
+        user = value;
+      }
+    });
 
     googleSignIn?.onCurrentUserChanged
         .listen((GoogleSignInAccount? account) async {
@@ -32,7 +32,7 @@ abstract class _UserStore with Store {
         print("userName is $userName");
       }
     });
-    googleSignIn?.signInSilently();
+    // googleSignIn?.signInSilently();
   }
 
   @observable
@@ -59,7 +59,7 @@ abstract class _UserStore with Store {
             email: value.email,
             photoUrl: value.photoUrl,
             serverAuthCode: value.serverAuthCode));
-       return value?.id != null ? 0 : 1;
+        return value?.id != null ? 0 : 1;
       });
     } catch (error) {
       print(error);
@@ -68,6 +68,14 @@ abstract class _UserStore with Store {
   }
 
   @action
-  Future<void> handleSignOut() async =>
-      googleSignIn != null ? await googleSignIn!.disconnect() : Future.value();
+  Future<void> handleSignOut() async => googleSignIn != null
+      ? await googleSignIn!.signOut().then((value) async {
+          user = User(id: 0);
+          userName = '';
+          // await googleSignIn!.signOut();
+          await currentUser?.clearAuthCache();
+          print("deleting user ${currentUser?.displayName}");
+          await Repository.get().deleteUser();
+        })
+      : Future.value();
 }

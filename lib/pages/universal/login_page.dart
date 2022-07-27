@@ -109,8 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     side: BorderSide(
                                         color: Colors.black, width: 3)))),
                         onPressed: () async {
-                          if (userStore?.currentUser?.displayName == null &&
-                              userStore?.user?.id == null) {
+                          if (userStore?.user?.id == null) {
                             await userStore?.handleSignIn().then((value) {
                               if (value == 0) {
                                 Navigator.push(

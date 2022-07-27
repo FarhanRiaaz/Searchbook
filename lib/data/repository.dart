@@ -240,6 +240,10 @@ class Repository {
     return await database.getUser();
   }
 
+  Future deleteUser() async {
+    return await database.deleteUser();
+  }
+
   Future close() async {
     return database.close();
   }
