@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:test_app/data/database.dart';
 import 'package:test_app/model/Book.dart';
 import 'package:http/http.dart' as http;
+
+import '../model/user.dart';
 
 /// A class similar to http.Response but instead of a String describing the body
 /// it already contains the parsed Dart-Object
@@ -184,8 +187,57 @@ class Repository {
     );
   }
 
+  Future<String>? handleGetContact(GoogleSignInAccount user) async {
+    var name = '';
+    final http.Response response = await http.get(
+      Uri.parse('https://people.googleapis.com/v1/people/me/connections'
+          '?requestMask.includeField=person.names'),
+      headers: await user.authHeaders,
+    );
+    if (response.statusCode != 200) {
+      print('People API ${response.statusCode} response: ${response.body}');
+      return name;
+    }
+    final Map<String, dynamic> data =
+        json.decode(response.body) as Map<String, dynamic>;
+    final String? namedContact = _pickFirstNamedContact(data);
+
+    if (namedContact != null) {
+      name = namedContact;
+      return name;
+    } else {
+      return name = '';
+    }
+  }
+
+  String? _pickFirstNamedContact(Map<String, dynamic> data) {
+    final List<dynamic>? connections = data['connections'] as List<dynamic>?;
+    final Map<String, dynamic>? contact = connections?.firstWhere(
+      (dynamic contact) => contact['names'] != null,
+      orElse: () => null,
+    ) as Map<String, dynamic>?;
+    if (contact != null) {
+      final Map<String, dynamic>? name = contact['names'].firstWhere(
+        (dynamic name) => name['displayName'] != null,
+        orElse: () => null,
+      ) as Map<String, dynamic>?;
+      if (name != null) {
+        return name['displayName'] as String?;
+      }
+    }
+    return null;
+  }
+
   Future updateBook(Book book) async {
     await database.updateBook(book);
+  }
+
+  Future updateUser(User user) async {
+    await database.updateUser(user);
+  }
+
+  Future<User> getUser() async {
+    return await database.getUser();
   }
 
   Future close() async {

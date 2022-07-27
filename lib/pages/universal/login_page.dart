@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:test_app/mobx/user_store.dart';
 import 'package:test_app/pages/navigation.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -9,6 +12,21 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  UserStore? userStore;
+
+  @override
+  void initState() {
+    userStore = UserStore();
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -90,11 +108,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                     borderRadius: BorderRadius.circular(6),
                                     side: BorderSide(
                                         color: Colors.black, width: 3)))),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NavigationScreen()));
+                        onPressed: () async {
+                          if (userStore?.currentUser?.displayName == null &&
+                              userStore?.user?.id == null) {
+                            await userStore?.handleSignIn().then((value) {
+                              if (value == 0) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            NavigationScreen()));
+                              }
+                            });
+                          }
+                          else {
+                            print(userStore?.user?.id);
+                            print(userStore?.currentUser?.displayName);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NavigationScreen()));
+                          }
                         })
                   ],
                 ),

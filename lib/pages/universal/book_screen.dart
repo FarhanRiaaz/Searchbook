@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:test_app/data/repository.dart';
 import 'package:test_app/mobx/book_store.dart';
+import 'package:test_app/mobx/user_store.dart';
 import 'package:test_app/model/categories.dart';
 import 'package:test_app/pages/abstract/search_book_page_abstract.dart';
 import 'package:test_app/pages/formal/book_details_page_formal.dart';
@@ -30,6 +32,7 @@ class BookScreen extends StatefulWidget {
 
 class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
   BookStore bookStore = BookStore();
+  UserStore userStore = UserStore();
 
   @override
   Widget build(BuildContext context) {
@@ -61,14 +64,16 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
                     wrapInAnimation(
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text(
-                            "Hello, Usman!",
-                            style: textStyle.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 32,
-                                fontFamily:
-                                    GoogleFonts.ibarraRealNova().fontFamily),
-                          ),
+                          child: Observer(builder: (context) {
+                            return Text(
+                              "Hello, ${userStore.user?.displayName}" ?? "",
+                              style: textStyle.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 32,
+                                  fontFamily:
+                                      GoogleFonts.ibarraRealNova().fontFamily),
+                            );
+                          }),
                         ),
                         0),
                     SizedBox(height: 16.0),
@@ -118,7 +123,11 @@ class _BookScreenStateNew extends AbstractSearchBookState<BookScreen> {
                             physics: ScrollPhysics(),
                             children: items
                                 .map((Book book) => Padding(
-                                      padding: const EdgeInsets.only(top:8.0,bottom:16.0,left: 24.0,right: 24.0),
+                                      padding: const EdgeInsets.only(
+                                          top: 8.0,
+                                          bottom: 16.0,
+                                          left: 24.0,
+                                          right: 24.0),
                                       child: Stamp(
                                         book.url!,
                                         width: 105.0,

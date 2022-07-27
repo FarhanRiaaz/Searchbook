@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:test_app/data/repository.dart';
+import 'package:test_app/mobx/user_store.dart';
 import 'package:test_app/pages/formal/search_book_page_formal.dart';
 import 'package:test_app/pages/formal/stamp_collection_page_formal.dart';
 import 'package:test_app/pages/universal/book_screen.dart';
-import 'package:test_app/pages/universal/login_page.dart';
 import 'package:test_app/pages/universal/profile_page.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -16,6 +16,8 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen>
     with SingleTickerProviderStateMixin {
   static AnimationController? cardsFirstOpenController;
+  UserStore userStore = UserStore();
+
 
   String interfaceType = "formal";
   int _selectedIndex = 0;

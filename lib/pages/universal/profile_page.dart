@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:test_app/mobx/user_store.dart';
 import 'package:test_app/pages/abstract/profile_page_abstract.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -10,6 +13,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends ProfilePageAbstractState {
+  UserStore userStore = UserStore();
+
   @override
   Widget build(BuildContext context) {
     const textStyle = const TextStyle(
@@ -55,15 +60,34 @@ class _ProfilePageState extends ProfilePageAbstractState {
                               color: Color(0XFF3B56FF),
                               shape: BoxShape.circle,
                             ),
-                            child: Center(
-                                child: Text(
-                              "M",
-                              style: TextStyle(
-                                  fontSize: 42,
-                                  color: Colors.white,
-                                  fontFamily:
-                                      GoogleFonts.openSans().fontFamily),
-                            )),
+                            child: Center(child: Observer(builder: (context) {
+                              return userStore.user?.photoUrl == null
+                                  ? Text(
+                                      userStore.user?.displayName?.substring(0, 1).toUpperCase() ??
+                                          "",
+                                      style: TextStyle(
+                                          fontSize: 42,
+                                          color: Colors.white,
+                                          fontFamily: GoogleFonts.openSans()
+                                              .fontFamily),
+                                    )
+                                  : CachedNetworkImage(
+                                      imageUrl: userStore.user!.photoUrl!,
+                                      fit: BoxFit.fill,
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                            width: 80.0,
+                                            height: 80.0,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator());
+                            })),
                           ),
                         ),
                       ),
@@ -73,26 +97,30 @@ class _ProfilePageState extends ProfilePageAbstractState {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "Muhammad Usman Piracha",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      GoogleFonts.openSans().fontFamily),
-                            ),
+                            Observer(builder: (context) {
+                              return Text(
+                                userStore.user?.displayName?.toUpperCase() ?? "",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily:
+                                        GoogleFonts.openSans().fontFamily),
+                              );
+                            }),
                             SizedBox(
                               height: 6,
                             ),
-                            Text(
-                              "Edit name",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0XFF31A7FB),
-                                  fontFamily:
-                                      GoogleFonts.openSans().fontFamily),
-                            ),
+                            Observer(builder: (context) {
+                              return Text(
+                                "${userStore.user?.email}",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0XFF31A7FB),
+                                    fontFamily:
+                                        GoogleFonts.openSans().fontFamily),
+                              );
+                            }),
                           ],
                         ),
                       )
@@ -239,7 +267,10 @@ class _ProfilePageState extends ProfilePageAbstractState {
                     child: Text("Logout"),
                   ),
                   onPressed: () async {
-                    Navigator.of(context).pop();
+                    await userStore.handleSignOut().then((value) {
+                      Navigator.of(context).pop();
+                    });
+
                   },
                 ),
               ),
