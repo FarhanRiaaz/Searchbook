@@ -32,7 +32,7 @@ abstract class _UserStore with Store {
         print("userName is $userName");
       }
     });
-    // googleSignIn?.signInSilently();
+     googleSignIn?.signInSilently();
   }
 
   @observable
@@ -68,14 +68,19 @@ abstract class _UserStore with Store {
   }
 
   @action
-  Future<void> handleSignOut() async => googleSignIn != null
-      ? await googleSignIn!.signOut().then((value) async {
+  Future<void> handleSignOut() async =>
+
+      googleSignIn != null
+      ? await googleSignIn!.disconnect().then((value) async {
           user = User(id: 0);
           userName = '';
           // await googleSignIn!.signOut();
-          await currentUser?.clearAuthCache();
+          //await currentUser?.clearAuthCache();
           print("deleting user ${currentUser?.displayName}");
           await Repository.get().deleteUser();
-        })
+        }).catchError((onError) async {
+        print("error $onError");
+        await googleSignIn!.signOut();
+      })
       : Future.value();
 }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:test_app/main.dart';
 import 'package:test_app/mobx/user_store.dart';
 import 'package:test_app/pages/abstract/profile_page_abstract.dart';
 
@@ -268,7 +269,7 @@ class _ProfilePageState extends ProfilePageAbstractState {
                   ),
                   onPressed: () async {
                     await userStore.handleSignOut().then((value) {
-                      Navigator.of(context).pop();
+                      Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
                     });
 
                   },

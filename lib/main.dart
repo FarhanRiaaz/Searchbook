@@ -7,6 +7,12 @@ import 'package:test_app/mobx/user_store.dart';
 import 'package:test_app/pages/navigation.dart';
 import 'package:test_app/pages/universal/login_page.dart';
 
+import 'pages/formal/search_book_page_formal.dart';
+import 'pages/formal/stamp_collection_page_formal.dart';
+import 'pages/material/search_book_page_material.dart';
+import 'pages/material/stamp_collection_page_material.dart';
+import 'pages/universal/collection_page.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
@@ -29,6 +35,18 @@ class MyApp extends StatelessWidget {
         home: userStore.user?.displayName != null
             ? NavigationScreen()
             : LoginScreen(),
+
+        routes: {
+          '/': (BuildContext context) =>  LoginScreen(),
+          '/navigation': (BuildContext context) =>  NavigationScreen(),
+          '/search_material': (BuildContext context) =>  SearchBookPage(),
+          '/search_formal': (BuildContext context) =>  SearchBookPageNew(),
+          '/collection': (BuildContext context) =>  CollectionPage(),
+          '/stamp_collection_material': (BuildContext context) =>
+              StampCollectionPage(),
+          '/stamp_collection_formal': (BuildContext context) =>
+              StampCollectionFormalPage(),
+        },
       );
     });
   }
